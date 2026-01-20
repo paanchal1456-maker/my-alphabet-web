@@ -73,7 +73,8 @@ if 'selected_letter' in st.session_state:
     
     for idx, item in enumerate(items):
         with display_cols[idx]:
-          def get_image_url(word):
+         def get_image_url(word):
+    # There are exactly 4 spaces before 'return' below
     return f"https://image.pollinations.ai/prompt/a_high_quality_photo_of_a_{word.replace(' ', '_')}?width=800&height=600&nologo=true"
     # This uses a newer, more reliable free image service (Pollinations or Lorempixel)
     return f"https://image.pollinations.ai/prompt/a_high_quality_photo_of_a_{word.replace(' ', '_')}?width=800&height=600&nologo=true"
@@ -86,5 +87,6 @@ else:
 st.sidebar.markdown("---")
 
 st.sidebar.write("Created with Python & Streamlit")
+
 
 
