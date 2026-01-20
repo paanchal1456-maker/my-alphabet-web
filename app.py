@@ -36,14 +36,12 @@ alphabet_data = {
 
 # --- LOOK AT THE SPACES BELOW ---
 import random
-def get_image_url(word):
-    # Adding a random number at the end helps avoid 'Rate Limits'
-    seed = random.randint(1, 1000)
-    return f"https://image.pollinations.ai/prompt/a_vibrant_high_quality_photo_of_a_{word.replace(' ', '_')}?width=800&height=600&nologo=true&seed={seed}"
-    # This line has 4 spaces at the start
-    return f"https://image.pollinations.ai/prompt/a_high_quality_photo_of_a_{word.replace(' ', '_')}?width=800&height=600&nologo=true"
 
-st.subheader("Select a Letter")
+def get_image_url(word):
+    # Adding a random seed helps avoid 'Rate Limit' blocks
+    seed = random.randint(1, 100000)
+return f"https://image.pollinations.ai/...seed={seed}"
+    st.subheader("Select a Letter")
 letters = list(alphabet_data.keys())
 cols1 = st.columns(13)
 for i, letter in enumerate(letters[:13]):
@@ -66,4 +64,5 @@ if 'selected_letter' in st.session_state:
             img_url = get_image_url(item)
             st.markdown(f"### {item}")
             st.image(img_url, use_container_width=True)
+
 
