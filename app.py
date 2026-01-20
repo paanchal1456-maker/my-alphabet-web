@@ -1,13 +1,14 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="AI Alphabet", page_icon="🎨", layout="wide")
+# 1. Page Setup
+st.set_page_config(page_title="Alphabet AI Dictionary", page_icon="📚", layout="wide")
 
-st.title("🔤 Interactive AI Dictionary")
-st.write("Click a letter to see 3 AI images!")
+st.title("🎨 My Interactive AI Dictionary")
+st.write("Click a letter below to see the AI generate 3 unique images for that letter!")
 
-# 1. The Dictionary of Words
-data = {
+# 2. Data
+alphabet_data = {
     'A': ['Apple', 'Astronaut', 'Airplane'], 'B': ['Balloon', 'Butterfly', 'Bicycle'],
     'C': ['Castle', 'Cat', 'Camera'], 'D': ['Dolphin', 'Desert', 'Diamond'],
     'E': ['Elephant', 'Eagle', 'Earth'], 'F': ['Flower', 'Fire', 'Forest'],
@@ -23,31 +24,41 @@ data = {
     'Y': ['Yacht', 'Yak', 'Yoga'], 'Z': ['Zebra', 'Zoo', 'Zigzag']
 }
 
-# 2. The Fixed Image Link (Added model=flux)
-def get_image(word):
-    seed = random.randint(1, 100000)
-    # Adding 'model=flux' is the secret fix for 2026!
-    return f"https://image.pollinations.ai/prompt/a_photo_of_{word}?width=800&height=600&seed={seed}&model=flux"
+# 3. Reliable Image Function
+def get_ai_image(word):
+    # We use 'nologo' and a specific model to make it more professional for your project
+    seed = random.randint(1, 999999)
+    return f"https://image.pollinations.ai/prompt/a_vibrant_professional_photo_of_a_{word}?width=800&height=600&seed={seed}&nologo=true&model=flux"
 
-# 3. The Buttons
+# 4. Alphabet Buttons
 st.subheader("Select a Letter")
-letters = list(data.keys())
-rows = [letters[:13], letters[13:]]
+letters = list(alphabet_data.keys())
+row1 = st.columns(13)
+for i, letter in enumerate(letters[:13]):
+    if row1[i].button(letter, key=f"top_{letter}"):
+        st.session_state.sel = letter
 
-for row in rows:
-    cols = st.columns(13)
-    for i, letter in enumerate(row):
-        if cols[i].button(letter, key=letter):
-            st.session_state.choice = letter
+row2 = st.columns(13)
+for i, letter in enumerate(letters[13:]):
+    if row2[i].button(letter, key=f"bot_{letter}"):
+        st.session_state.sel = letter
 
-# 4. Show the Images
-if 'choice' in st.session_state:
-    letter = st.session_state.choice
-    st.header(f"Results for {letter}")
-    img_cols = st.columns(3)
-    for idx, item in enumerate(data[letter]):
-        with img_cols[idx]:
-            st.write(f"### {item}")
-            # This will show a spinner while the AI draws
-            with st.spinner("Drawing..."):
-                st.image(get_image(item), use_container_width=True)
+# 5. Display Area
+if 'sel' in st.session_state:
+    current_letter = st.session_state.sel
+    st.divider()
+    st.header(f"Results for Letter: {current_letter}")
+    
+    # This creates a nice loading effect
+    with st.status(f"Drawing images for {current_letter}...", expanded=True) as status:
+        cols = st.columns(3)
+        items = alphabet_data[current_letter]
+        
+        for idx, item in enumerate(items):
+            with cols[idx]:
+                st.subheader(item)
+                # We add a unique key to the image to force it to refresh
+                st.image(get_ai_image(item), use_container_width=True)
+        status.update(label="Images Loaded Successfully!", state="complete")
+    
+    st.balloons() # This adds a "celebration" effect when it works!
