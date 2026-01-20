@@ -62,3 +62,4 @@ if 'sel' in st.session_state:
         status.update(label="Images Loaded Successfully!", state="complete")
     
     st.balloons() # This adds a "celebration" effect when it works!
+
