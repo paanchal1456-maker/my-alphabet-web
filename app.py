@@ -40,8 +40,8 @@ import random
 def get_image_url(word):
     # Adding a random seed helps avoid 'Rate Limit' blocks
     seed = random.randint(1, 100000)
-return f"https://image.pollinations.ai/...seed={seed}"
-    st.subheader("Select a Letter")
+return f"https://image.pollinations.ai/...&seed={seed}"
+st.subheader("Select a Letter")
 letters = list(alphabet_data.keys())
 cols1 = st.columns(13)
 for i, letter in enumerate(letters[:13]):
@@ -64,5 +64,6 @@ if 'selected_letter' in st.session_state:
             img_url = get_image_url(item)
             st.markdown(f"### {item}")
             st.image(img_url, use_container_width=True)
+
 
 
