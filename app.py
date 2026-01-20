@@ -73,7 +73,9 @@ if 'selected_letter' in st.session_state:
     
     for idx, item in enumerate(items):
         with display_cols[idx]:
-            img_url = get_image_url(item)
+            def get_image_url(word):
+    # This uses a newer, more reliable free image service (Pollinations or Lorempixel)
+    return f"https://image.pollinations.ai/prompt/a_high_quality_photo_of_a_{word.replace(' ', '_')}?width=800&height=600&nologo=true"
             st.markdown(f"### {item}")
             st.image(img_url, use_column_width=True)
 else:
@@ -81,4 +83,5 @@ else:
 
 # Footer
 st.sidebar.markdown("---")
+
 st.sidebar.write("Created with Python & Streamlit")
