@@ -35,7 +35,11 @@ alphabet_data = {
 }
 
 # --- LOOK AT THE SPACES BELOW ---
+import random
 def get_image_url(word):
+    # Adding a random number at the end helps avoid 'Rate Limits'
+    seed = random.randint(1, 1000)
+    return f"https://image.pollinations.ai/prompt/a_vibrant_high_quality_photo_of_a_{word.replace(' ', '_')}?width=800&height=600&nologo=true&seed={seed}"
     # This line has 4 spaces at the start
     return f"https://image.pollinations.ai/prompt/a_high_quality_photo_of_a_{word.replace(' ', '_')}?width=800&height=600&nologo=true"
 
@@ -62,3 +66,4 @@ if 'selected_letter' in st.session_state:
             img_url = get_image_url(item)
             st.markdown(f"### {item}")
             st.image(img_url, use_container_width=True)
+
